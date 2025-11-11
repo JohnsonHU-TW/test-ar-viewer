@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>簡易 AR 模型檢視器</title>
+    <title>自由旋轉 AR 檢視器</title>
 
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
@@ -21,25 +21,32 @@
             width: 100%;
             padding: 12px;
             font-size: 1em;
-            box-sizing: border-box; /* 確保 padding 不會讓它超出寬度 */
+            box-sizing: border-box;
         }
 
-        /* 3D 檢視器樣式 */
         #ar-viewer {
             width: 100%;
             height: 600px;
             margin-top: 1em;
             border-radius: 8px;
             background-color: #ffffff;
-            /* 預設隱藏，直到有模型載入 */
-            display: none;
+            display: none; /* 預設隱藏 */
+        }
+
+        #instruction {
+            display: none; /* 預設隱藏 */
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.1em;
+            color: #1a73e8; /* Google 藍 */
+            margin-top: 1em;
         }
     </style>
 </head>
 <body>
 
-    <h1>簡易 AR 模型檢視器</h1>
-    <p>請在您的 Android 手機上選擇一個 <strong>.glb</strong> 或 <strong>.gltf</strong> 檔案來載入模型。</p>
+    <h1>自由旋轉 AR 檢視器</h1>
+    <p>請選擇一個 <strong>.glb</strong> 或 <strong>.gltf</strong> 檔案。此版本將使用 WebXR 模式以允許自由旋轉。</p>
 
     <input type="file" id="file-input" accept=".glb, .gltf">
 
@@ -48,39 +55,46 @@
         src=""
         alt="您載入的 3D 模型"
         ar
-        ar-modes="webxr scene-viewer quick-look"
+        ar-modes="webxr"
         camera-controls
         auto-rotate
         shadow-intensity="1">
     </model-viewer>
 
+    <p id="instruction">
+        模型載入成功！請點擊右下角的 AR 按鈕進入 WebXR 模式。
+    </p>
+
     <script>
         const fileInput = document.getElementById('file-input');
         const modelViewer = document.getElementById('ar-viewer');
+        const instructionText = document.getElementById('instruction');
 
-        // 用於儲存目前檔案的 URL，以便稍後釋放記憶體
         let currentObjectURL = null;
 
         fileInput.addEventListener('change', (event) => {
-            // 檢查是否有選擇檔案
             const file = event.target.files[0];
+
             if (!file) {
+                modelViewer.style.display = 'none';
+                instructionText.style.display = 'none';
+                if (currentObjectURL) {
+                    URL.revokeObjectURL(currentObjectURL);
+                    currentObjectURL = null;
+                }
+                modelViewer.src = "";
                 return;
             }
 
-            // 如果之前有載入過模型，先釋放舊的 URL 記憶體
             if (currentObjectURL) {
                 URL.revokeObjectURL(currentObjectURL);
             }
 
-            // 為選擇的檔案建立一個本地 URL
             currentObjectURL = URL.createObjectURL(file);
-
-            // 將 model-viewer 的 src 設為這個本地 URL
             modelViewer.src = currentObjectURL;
 
-            // 讓 model-viewer 顯示出來
             modelViewer.style.display = 'block';
+            instructionText.style.display = 'block';
         });
     </script>
 
