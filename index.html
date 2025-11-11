@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>自由旋轉 AR 檢視器</title>
-
+    <title>AR 自由檢視器 (無擺設)</title>
+    
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
-
+    
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -21,9 +21,9 @@
             width: 100%;
             padding: 12px;
             font-size: 1em;
-            box-sizing: border-box;
+            box-sizing: border-box; 
         }
-
+        
         #ar-viewer {
             width: 100%;
             height: 600px;
@@ -38,43 +38,44 @@
             text-align: center;
             font-weight: bold;
             font-size: 1.1em;
-            color: #1a73e8; /* Google 藍 */
+            color: #d93025; /* 紅色，表示新的操作模式 */
             margin-top: 1em;
         }
     </style>
 </head>
 <body>
 
-    <h1>自由旋轉 AR 檢視器</h1>
-    <p>請選擇一個 <strong>.glb</strong> 或 <strong>.gltf</strong> 檔案。此版本將使用 WebXR 模式以允許自由旋轉。</p>
-
+    <h1>AR 自由檢視器 (無擺設)</h1>
+    <p>請選擇一個 <strong>.glb</strong> 或 <strong>.gltf</strong> 檔案。此版本已禁用「點擊放置」，您將在空間中自由控制模型。</p>
+    
     <input type="file" id="file-input" accept=".glb, .gltf">
 
-    <model-viewer
+    <model-viewer 
         id="ar-viewer"
         src=""
         alt="您載入的 3D 模型"
         ar
         ar-modes="webxr"
+        disable-tap
         camera-controls
         auto-rotate
         shadow-intensity="1">
     </model-viewer>
 
     <p id="instruction">
-        模型載入成功！請點擊右下角的 AR 按鈕進入 WebXR 模式。
+        模型已載入！點擊 AR 按鈕進入。您現在處於「自由模式」，請使用以下手勢：
     </p>
 
     <script>
         const fileInput = document.getElementById('file-input');
         const modelViewer = document.getElementById('ar-viewer');
         const instructionText = document.getElementById('instruction');
-
+        
         let currentObjectURL = null;
 
         fileInput.addEventListener('change', (event) => {
             const file = event.target.files[0];
-
+            
             if (!file) {
                 modelViewer.style.display = 'none';
                 instructionText.style.display = 'none';
@@ -82,7 +83,7 @@
                     URL.revokeObjectURL(currentObjectURL);
                     currentObjectURL = null;
                 }
-                modelViewer.src = "";
+                modelViewer.src = ""; 
                 return;
             }
 
@@ -92,7 +93,7 @@
 
             currentObjectURL = URL.createObjectURL(file);
             modelViewer.src = currentObjectURL;
-
+            
             modelViewer.style.display = 'block';
             instructionText.style.display = 'block';
         });
