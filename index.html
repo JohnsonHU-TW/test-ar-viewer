@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>簡易 AR 模型檢視器</title>
+
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            padding: 1em;
+            background-color: #f0f0f0;
+        }
+        h1 {
+            text-align: center;
+        }
+        #file-input {
+            width: 100%;
+            padding: 12px;
+            font-size: 1em;
+            box-sizing: border-box; /* 確保 padding 不會讓它超出寬度 */
+        }
+
+        /* 3D 檢視器樣式 */
+        #ar-viewer {
+            width: 100%;
+            height: 600px;
+            margin-top: 1em;
+            border-radius: 8px;
+            background-color: #ffffff;
+            /* 預設隱藏，直到有模型載入 */
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>簡易 AR 模型檢視器</h1>
+    <p>請在您的 Android 手機上選擇一個 <strong>.glb</strong> 或 <strong>.gltf</strong> 檔案來載入模型。</p>
+
+    <input type="file" id="file-input" accept=".glb, .gltf">
+
+    <model-viewer
+        id="ar-viewer"
+        src=""
+        alt="您載入的 3D 模型"
+        ar
+        ar-modes="webxr scene-viewer quick-look"
+        camera-controls
+        auto-rotate
+        shadow-intensity="1">
+    </model-viewer>
+
+    <script>
+        const fileInput = document.getElementById('file-input');
+        const modelViewer = document.getElementById('ar-viewer');
+
+        // 用於儲存目前檔案的 URL，以便稍後釋放記憶體
+        let currentObjectURL = null;
+
+        fileInput.addEventListener('change', (event) => {
+            // 檢查是否有選擇檔案
+            const file = event.target.files[0];
+            if (!file) {
+                return;
+            }
+
+            // 如果之前有載入過模型，先釋放舊的 URL 記憶體
+            if (currentObjectURL) {
+                URL.revokeObjectURL(currentObjectURL);
+            }
+
+            // 為選擇的檔案建立一個本地 URL
+            currentObjectURL = URL.createObjectURL(file);
+
+            // 將 model-viewer 的 src 設為這個本地 URL
+            modelViewer.src = currentObjectURL;
+
+            // 讓 model-viewer 顯示出來
+            modelViewer.style.display = 'block';
+        });
+    </script>
+
+</body>
+</html>
