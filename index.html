@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AR 自由檢視器 (無擺設)</title>
+    <title>AR 擺設檢視器 (可移動/旋轉)</title>
     
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
     
@@ -38,15 +38,15 @@
             text-align: center;
             font-weight: bold;
             font-size: 1.1em;
-            color: #d93025; /* 紅色，表示新的操作模式 */
+            color: #1a73e8; /* Google 藍 */
             margin-top: 1em;
         }
     </style>
 </head>
 <body>
 
-    <h1>AR 自由檢視器 (無擺設)</h1>
-    <p>請選擇一個 <strong>.glb</strong> 或 <strong>.gltf</strong> 檔案。此版本已禁用「點擊放置」，您將在空間中自由控制模型。</p>
+    <h1>AR 擺設檢視器</h1>
+    <p>請選擇一個 <strong>.glb</strong> 或 <strong>.gltf</strong> 檔案。進入 AR 後，請點擊平面來「放置」模型。</p>
     
     <input type="file" id="file-input" accept=".glb, .gltf">
 
@@ -55,15 +55,14 @@
         src=""
         alt="您載入的 3D 模型"
         ar
-        ar-modes="webxr"
-        disable-tap
+        ar-modes="webxr scene-viewer quick-look"
         camera-controls
         auto-rotate
         shadow-intensity="1">
     </model-viewer>
 
     <p id="instruction">
-        模型已載入！點擊 AR 按鈕進入。您現在處於「自由模式」，請使用以下手勢：
+        模型已載入！點擊 AR 按鈕進入。
     </p>
 
     <script>
