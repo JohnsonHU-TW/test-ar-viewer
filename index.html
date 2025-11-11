@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AR 擺設檢視器 (可移動/旋轉)</title>
+    <title>AR 擺設檢視器 (強制 SceneViewer)</title>
     
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
     
@@ -45,8 +45,8 @@
 </head>
 <body>
 
-    <h1>AR 擺設檢視器</h1>
-    <p>請選擇一個 <strong>.glb</strong> 或 <strong>.gltf</strong> 檔案。進入 AR 後，請點擊平面來「放置」模型。</p>
+    <h1>AR 擺設檢視器 (強制 SceneViewer)</h1>
+    <p>請選擇 .glb 或 .gltf 檔案。此版本將強制使用 Google AR 服務，手勢將會改變。</p>
     
     <input type="file" id="file-input" accept=".glb, .gltf">
 
@@ -55,7 +55,7 @@
         src=""
         alt="您載入的 3D 模型"
         ar
-        ar-modes="webxr scene-viewer quick-look"
+        ar-modes="scene-viewer quick-look" 
         camera-controls
         auto-rotate
         shadow-intensity="1">
