@@ -38,7 +38,7 @@
         }
         #ar-viewer {
             width: 100%;
-            height: 350px;
+            height: 350px; /* <-- 保留您設定的 350px */
             border-radius: 8px;
             background-color: #ffffff;
         }
@@ -59,6 +59,12 @@
         <button id="btn-model-a">載入模型 A</button>
         <button id="btn-model-b">載入模型 B</button>
         <button id="btn-model-c">載入模型 C</button>
+        <button id="btn-model-d">載入模型 D</button>
+        <button id="btn-model-e">載入模型 E</button>
+        <button id="btn-model-g">載入模型 G</button>
+        <button id="btn-model-h">載入模型 H</button>
+        <button id="btn-model-i">載入模型 I</button>
+        <button id="btn-model-j">載入模型 J</button>
     </div>
 
     <model-viewer
@@ -89,19 +95,45 @@
                 usdz: "https://johnsonhu-tw.github.io/test-ar-viewer/NCKU_Training_05.usdz"
             },
             b: {
+                glb: "https://johnsonhu-tw.github.io/test-ar-viewer/NCKU_Training_10.glb",
+                usdz: "https://johnsonhu-tw.github.io/test-ar-viewer/NCKU_Training_10.usdz"
+            },
+            c: {
                 glb: "https://johnsonhu-tw.github.io/test-ar-viewer/NCKU_Training_15.glb",
                 usdz: "https://johnsonhu-tw.github.io/test-ar-viewer/NCKU_Training_15.usdz"
             },
-            c: {
-                glb: "https://johnsonhu-tw.github.io/test-ar-viewer/NCKU_Training_21.glb",
-                usdz: "https://johnsonhu-tw.github.io/test-ar-viewer/NCKU_Training_21.usdz"
+            // --- 以下為新增的 6 個模型 ---
+            d: {
+                glb: "https://johnsonhu-tw.github.io/test-ar-viewer/NCKU_Training_21.glb", // <-- 請替換
+                usdz: "https://johnsonhu-tw.github.io/test-ar-viewer/NCKU_Training_21.usdz" // <-- 請替換
+            },
+            e: {
+                glb: "https://johnsonhu-tw.github.io/test-ar-viewer/NCKU_Test_32.glb", // <-- 請替換
+                usdz: "https://johnsonhu-tw.github.io/test-ar-viewer/NCKU_Test_32.usdz" // <-- 請替換
+            },
+            g: { // 遵循您跳過 'f' 的命名
+                glb: "https://johnsonhu-tw.github.io/test-ar-viewer/NCKU_Test_35.glb", // <-- 請替換
+                usdz: "https://johnsonhu-tw.github.io/test-ar-viewer/NCKU_Test_35.usdz" // <-- 請替換
+            },
+            h: {
+                glb: "https://johnsonhu-tw.github.io/test-ar-viewer/NCKU_Test_37.glb", // <-- 請替換
+                usdz: "https://johnsonhu-tw.github.io/test-ar-viewer/NCKU_Test_37.usdz" // <-- 請替換
+            },
+            i: {
+                glb: "https://johnsonhu-tw.github.io/test-ar-viewer/NCKU_Test_40.glb", // <-- 請替換
+                usdz: "https://johnsonhu-tw.github.io/test-ar-viewer/NCKU_Test_40.usdz" // <-- 請替換
+            },
+            j: {
+                glb: "https://johnsonhu-tw.github.io/test-ar-viewer/NCKU_Test_50.glb", // <-- 請替換
+                usdz: "https://johnsonhu-tw.github.io/test-ar-viewer/NCKU_Test_50usdz" // <-- 請替換
             }
         };
 
+        // --- 以下為原有的 3 個按鈕 ---
         // 按鈕 A
         document.querySelector('#btn-model-a').addEventListener('click', () => {
             viewer.src = modelUrls.a.glb;
-            viewer.iosSrc = modelUrls.a.usdz; // 注意：這裡是 .iosSrc (JavaScript 屬性名稱)
+            viewer.iosSrc = modelUrls.a.usdz;
             viewer.alt = "Demo model A";
         });
 
@@ -118,6 +150,50 @@
             viewer.iosSrc = modelUrls.c.usdz;
             viewer.alt = "Demo model C";
         });
+
+        // --- 以下為新增的 6 個按鈕事件 ---
+        // 按鈕 D
+        document.querySelector('#btn-model-d').addEventListener('click', () => {
+            viewer.src = modelUrls.d.glb;
+            viewer.iosSrc = modelUrls.d.usdz;
+            viewer.alt = "Demo model D";
+        });
+
+        // 按鈕 E
+        document.querySelector('#btn-model-e').addEventListener('click', () => {
+            viewer.src = modelUrls.e.glb;
+            viewer.iosSrc = modelUrls.e.usdz;
+            viewer.alt = "Demo model E";
+        });
+
+        // 按鈕 G
+        document.querySelector('#btn-model-g').addEventListener('click', () => {
+            viewer.src = modelUrls.g.glb;
+            viewer.iosSrc = modelUrls.g.usdz;
+            viewer.alt = "Demo model G";
+        });
+
+        // 按鈕 H
+        document.querySelector('#btn-model-h').addEventListener('click', () => {
+            viewer.src = modelUrls.h.glb;
+            viewer.iosSrc = modelUrls.h.usdz;
+            viewer.alt = "Demo model H";
+        });
+
+        // 按鈕 I
+        document.querySelector('#btn-model-i').addEventListener('click', () => {
+            viewer.src = modelUrls.i.glb;
+            viewer.iosSrc = modelUrls.i.usdz;
+            viewer.alt = "Demo model I";
+        });
+
+        // 按鈕 J
+        document.querySelector('#btn-model-j').addEventListener('click', () => {
+            viewer.src = modelUrls.j.glb;
+            viewer.iosSrc = modelUrls.j.usdz;
+            viewer.alt = "Demo model J";
+        });
+
     </script>
 
 </body>

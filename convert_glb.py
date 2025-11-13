@@ -13,7 +13,7 @@ def to_glb(case):
         exit()
 
     # --- 2. 為每個網格建立並指派"明確的"PBR材質 ---
-    SCALE_FACTOR = 0.001
+    SCALE_FACTOR = 0.01
     # --- 1B. 應用縮放 ---
     # *** 在設定材質前，將所有模型套用相同的縮放 ***
     mesh1.apply_scale(SCALE_FACTOR)
