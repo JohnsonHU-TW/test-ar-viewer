@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>前列腺AR檢視器</title>
-    
+
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
-    
+
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -17,28 +17,36 @@
         h1 {
             text-align: center;
         }
-        #file-input {
-            width: 100%;
-            padding: 12px;
-            font-size: 1em;
-            box-sizing: border-box; 
+        #controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 1em;
+            flex-wrap: wrap; /* 讓按鈕在小螢幕上可以換行 */
         }
-        
+        button {
+            font-size: 1em;
+            padding: 10px 15px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
         #ar-viewer {
             width: 100%;
             height: 600px;
-            margin-top: 1em;
             border-radius: 8px;
             background-color: #ffffff;
-            display: none; /* 預設隱藏 */
         }
-
         #instruction {
-            display: none; /* 預設隱藏 */
             text-align: center;
             font-weight: bold;
             font-size: 1.1em;
-            color: #1a73e8; /* Google 藍 */
+            color: #1a73e8;
             margin-top: 1em;
         }
     </style>
@@ -46,58 +54,71 @@
 <body>
 
     <h1>前列腺AR檢視器</h1>
-    <p>請選擇一個 <strong>.glb</strong> 檔案後，點擊右下角的 AR 按鈕進入 WebXR 模式。</p>
-    
-    <input type="file" id="file-input" accept=".glb, .gltf">
 
-    <model-viewer 
+    <div id="controls">
+        <button id="btn-model-a">載入模型 A</button>
+        <button id="btn-model-b">載入模型 B</button>
+        <button id="btn-model-c">載入模型 C</button>
+    </div>
+
+    <model-viewer
         id="ar-viewer"
-        src=""
+
+        src="https://johnsonhu-tw.github.io/test-ar-viewer/NCKU_Training_05.gld"
+        ios-src="https://johnsonhu-tw.github.io/test-ar-viewer/NCKU_Training_05.gld"
+
         alt="您載入的 3D 模型"
         ar
-        ar-modes="webxr" 
+        ar-modes="scene-viewer quick-look"
         camera-controls
         auto-rotate
         shadow-intensity="1">
     </model-viewer>
 
     <p id="instruction">
-        模型載入成功！請點擊右下角的 AR 按鈕進入 WebXR 模式。
+        適用於 Android (SceneViewer) 和 Apple (Quick Look)。
     </p>
 
     <script>
-        const fileInput = document.getElementById('file-input');
-        const modelViewer = document.getElementById('ar-viewer');
-        const instructionText = document.getElementById('instruction');
-        
-        let currentObjectURL = null;
+        const viewer = document.querySelector('#ar-viewer');
 
-        fileInput.addEventListener('change', (event) => {
-            const file = event.target.files[0];
-            
-            if (!file) {
-                modelViewer.style.display = 'none';
-                instructionText.style.display = 'none';
-                if (currentObjectURL) {
-                    URL.revokeObjectURL(currentObjectURL);
-                    currentObjectURL = null;
-                }
-                modelViewer.src = ""; 
-                return;
+        // (重要！) 在這裡定義您所有模型的網址
+        const modelUrls = {
+            a: {
+                glb: "https://johnsonhu-tw.github.io/test-ar-viewer/NCKU_Training_05.gld",
+                usdz: "https://johnsonhu-tw.github.io/test-ar-viewer/NCKU_Training_05.gld"
+            },
+            b: {
+                glb: "https://johnsonhu-tw.github.io/test-ar-viewer/NCKU_Training_15.gld",
+                usdz: "https://johnsonhu-tw.github.io/test-ar-viewer/NCKU_Training_15.gld"
+            },
+            c: {
+                glb: "https://johnsonhu-tw.github.io/test-ar-viewer/NCKU_Training_21.gld",
+                usdz: "https://johnsonhu-tw.github.io/test-ar-viewer/NCKU_Training_21.gld"
             }
+        };
 
-            if (currentObjectURL) {
-                URL.revokeObjectURL(currentObjectURL);
-            }
+        // 按鈕 A
+        document.querySelector('#btn-model-a').addEventListener('click', () => {
+            viewer.src = modelUrls.a.glb;
+            viewer.iosSrc = modelUrls.a.usdz; // 注意：這裡是 .iosSrc (JavaScript 屬性名稱)
+            viewer.alt = "Demo model A";
+        });
 
-            currentObjectURL = URL.createObjectURL(file);
-            modelViewer.src = currentObjectURL;
-            
-            modelViewer.style.display = 'block';
-            instructionText.style.display = 'block';
+        // 按鈕 B
+        document.querySelector('#btn-model-b').addEventListener('click', () => {
+            viewer.src = modelUrls.b.glb;
+            viewer.iosSrc = modelUrls.b.usdz;
+            viewer.alt = "Demo model B";
+        });
+
+        // 按鈕 C
+        document.querySelector('#btn-model-c').addEventListener('click', () => {
+            viewer.src = modelUrls.c.glb;
+            viewer.iosSrc = modelUrls.c.usdz;
+            viewer.alt = "Demo model C";
         });
     </script>
 
 </body>
 </html>
-
