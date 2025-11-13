@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>簡易 AR 模型檢視器</title>
+    <title>自由旋轉 AR 檢視器</title>
     
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
     
@@ -24,7 +24,6 @@
             box-sizing: border-box; 
         }
         
-        /* 3D 檢視器樣式 */
         #ar-viewer {
             width: 100%;
             height: 600px;
@@ -34,7 +33,6 @@
             display: none; /* 預設隱藏 */
         }
 
-        /* 提示文字的樣式 */
         #instruction {
             display: none; /* 預設隱藏 */
             text-align: center;
@@ -47,8 +45,8 @@
 </head>
 <body>
 
-    <h1>簡易 AR 模型檢視器</h1>
-    <p>請在您的 Android 手機上選擇一個 <strong>.glb</strong> 或 <strong>.gltf</strong> 檔案來載入模型。</p>
+    <h1>自由旋轉 AR 檢視器</h1>
+    <p>請選擇一個 <strong>.glb</strong> 或 <strong>.gltf</strong> 檔案。此版本將使用 WebXR 模式以允許自由旋轉。</p>
     
     <input type="file" id="file-input" accept=".glb, .gltf">
 
@@ -57,14 +55,14 @@
         src=""
         alt="您載入的 3D 模型"
         ar
-        ar-modes="webxr scene-viewer quick-look"
+        ar-modes="webxr" 
         camera-controls
         auto-rotate
         shadow-intensity="1">
     </model-viewer>
 
     <p id="instruction">
-        模型載入成功！請點擊 3D 視窗**右下角**的 AR 按鈕來開啟相機。
+        模型載入成功！請點擊右下角的 AR 按鈕進入 WebXR 模式。
     </p>
 
     <script>
@@ -78,14 +76,13 @@
             const file = event.target.files[0];
             
             if (!file) {
-                // 如果取消選擇，隱藏所有內容
                 modelViewer.style.display = 'none';
                 instructionText.style.display = 'none';
                 if (currentObjectURL) {
                     URL.revokeObjectURL(currentObjectURL);
                     currentObjectURL = null;
                 }
-                modelViewer.src = ""; // 清空 src
+                modelViewer.src = ""; 
                 return;
             }
 
@@ -96,8 +93,10 @@
             currentObjectURL = URL.createObjectURL(file);
             modelViewer.src = currentObjectURL;
             
-            // 顯示 model-viewer 和提示文字
             modelViewer.style.display = 'block';
             instructionText.style.display = 'block';
         });
-    </chtml
+    </script>
+
+</body>
+</html>
