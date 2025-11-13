@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AR 擺設檢視器 (SceneViewer 最終版3)</title>
+    <title>簡易 AR 模型檢視器</title>
     
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
     
@@ -17,18 +17,26 @@
         h1 {
             text-align: center;
         }
-        /* 我們移除了檔案上傳按鈕，
-           所以檢視器可以立即顯示 
-        */
+        #file-input {
+            width: 100%;
+            padding: 12px;
+            font-size: 1em;
+            box-sizing: border-box; 
+        }
+        
+        /* 3D 檢視器樣式 */
         #ar-viewer {
             width: 100%;
             height: 600px;
             margin-top: 1em;
             border-radius: 8px;
             background-color: #ffffff;
+            display: none; /* 預設隱藏 */
         }
 
+        /* 提示文字的樣式 */
         #instruction {
+            display: none; /* 預設隱藏 */
             text-align: center;
             font-weight: bold;
             font-size: 1.1em;
@@ -39,30 +47,57 @@
 </head>
 <body>
 
-    <h1>AR 擺設檢視器 (SceneViewer 最終版3)</h1>
-    <p>模型已從 GitHub 載入。此版本將強制使用 Google AR 服務 (SceneViewer)。</p>
+    <h1>簡易 AR 模型檢視器</h1>
+    <p>請在您的 Android 手機上選擇一個 <strong>.glb</strong> 或 <strong>.gltf</strong> 檔案來載入模型。</p>
+    
+    <input type="file" id="file-input" accept=".glb, .gltf">
 
     <model-viewer 
         id="ar-viewer"
-        src="https://johnsonhu-tw.github.io/test-ar-viewer/model_gland1.glb"
-        scale="0.01 0.01 0.01"
-        environment-image="neutral"
+        src=""
         alt="您載入的 3D 模型"
         ar
-        ar-modes="scene-viewer quick-look" 
+        ar-modes="webxr scene-viewer quick-look"
         camera-controls
         auto-rotate
         shadow-intensity="1">
     </model-viewer>
 
     <p id="instruction">
-        請點擊 AR 按鈕進入。進入後，手勢將會是：<br>
-        <strong>一指拖曳：</strong> 移動位置<br>
-        <strong>兩指扭轉/捏合：</strong> 旋轉 / 縮放
+        模型載入成功！請點擊 3D 視窗**右下角**的 AR 按鈕來開啟相機。
     </p>
 
-    </body>
-</html>
+    <script>
+        const fileInput = document.getElementById('file-input');
+        const modelViewer = document.getElementById('ar-viewer');
+        const instructionText = document.getElementById('instruction');
+        
+        let currentObjectURL = null;
 
+        fileInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            
+            if (!file) {
+                // 如果取消選擇，隱藏所有內容
+                modelViewer.style.display = 'none';
+                instructionText.style.display = 'none';
+                if (currentObjectURL) {
+                    URL.revokeObjectURL(currentObjectURL);
+                    currentObjectURL = null;
+                }
+                modelViewer.src = ""; // 清空 src
+                return;
+            }
 
+            if (currentObjectURL) {
+                URL.revokeObjectURL(currentObjectURL);
+            }
 
+            currentObjectURL = URL.createObjectURL(file);
+            modelViewer.src = currentObjectURL;
+            
+            // 顯示 model-viewer 和提示文字
+            modelViewer.style.display = 'block';
+            instructionText.style.display = 'block';
+        });
+    </chtml
